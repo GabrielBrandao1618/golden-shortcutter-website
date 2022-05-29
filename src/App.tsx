@@ -1,6 +1,8 @@
+import {Router} from './pages/RootRouter'
+
 function App() {
   return (
-    <h2>Hello world!</h2>
+    <Router />
   )
 }
 
