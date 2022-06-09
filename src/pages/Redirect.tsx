@@ -2,10 +2,14 @@ import { useEffect, useState } from 'react';
 import {useParams} from 'react-router-dom'
 
 import {api} from '../services/api'
-import axios from 'axios'
 
 type Params = {
     name:string;
+}
+
+type getUrlServerResponse = {
+    ref: string;
+    name: string;
 }
 
 function Redirect(){
@@ -14,12 +18,17 @@ function Redirect(){
     const [url, setUrl] = useState('')
 
     useEffect(() => {
-        api.get(`/getUrl/${name}`).then(console.log)
+        api.get<getUrlServerResponse>(`/getUrl/${name}`).then(response => setUrl(response.data.ref))
     }, [])
+    useEffect(()=> {
+        if(url.trim() !== ''){
+            window.location.replace(url)
+        }
+    }, [url])
     return (
         <div>
-            <h2>Tela de redirecionamento</h2>
-            <p>Redirecionando para: {name}</p>
+            <h2>Aguarde</h2>
+            <p>Em alguns instantes você será redirecionado para onde deseja</p>
         </div>
     )
 }
