@@ -84,6 +84,7 @@ const StyledHome = styled(Home)`
         border-radius: 8px;
         padding: 10px;
         box-sizing:border-box;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, .3);
 
         h1 {
             font-weight:bold;
@@ -107,6 +108,7 @@ const StyledHome = styled(Home)`
                 font-weight: bold;
                 cursor:pointer;
                 box-sizing:border-box;
+                border-radius: 8px;
             }
         }
     }
