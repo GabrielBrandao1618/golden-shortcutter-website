@@ -3,6 +3,8 @@ import styled from 'styled-components'
 
 import {api} from '../services/api'
 
+import {Input} from '../components/Input'
+
 type props = {
     className?: string;
 }
@@ -35,27 +37,29 @@ function Home({className}:props){
     }
     return (
         <div className={className}>
-            <h2>Home</h2>
             <form onSubmit={handleFormSubmit}>
-                <label htmlFor="custom-name">Custom name</label>
-                <input 
-                    type="text" 
-                    name="custom-name" 
-                    id="custom-name" 
-                    onChange={e => setCustomName(e.target.value)}
-                    value={customName}
-                    required
-                />
-                <label htmlFor="url">URL</label>
-                <input 
-                    type="text" 
-                    name="url" 
-                    id="url" 
-                    onChange={e => setUrl(e.target.value)}
-                    value={url}
-                    required
-                />
-                <button type="submit">Criar link</button>
+                <h1>Golden shortcutter</h1>
+                <div className="inputs">
+                    <Input 
+                        type="text" 
+                        name="custom-name" 
+                        id="custom-name" 
+                        onChange={e => setCustomName(e.target.value)}
+                        value={customName}
+                        required
+                        label="Custom name"
+                    />
+                    <Input 
+                        type="text" 
+                        name="url"
+                        id="url" 
+                        onChange={e => setUrl(e.target.value)}
+                        value={url}
+                        required
+                        label="URL"
+                    />
+                    <button type="submit">Criar link</button>
+                </div>
             </form>
             <p>{serverResponse}</p>
         </div>
@@ -65,6 +69,47 @@ function Home({className}:props){
 const StyledHome = styled(Home)`
     width: 100vw;
     height: 100vh;
+    display:flex;
+    flex-flow: column nowrap;
+    align-items:center;
+    justify-content:center;
+
+    form {
+        width: 100%;
+        max-width: 500px;
+        background-color: #ffc400;
+        display:flex;
+        flex-flow: column nowrap;
+        align-items:center;
+        border-radius: 8px;
+        padding: 10px;
+        box-sizing:border-box;
+
+        h1 {
+            font-weight:bold;
+            width:100%;
+            text-align:center;
+        }
+        .inputs {
+            display:flex;
+            flex-flow: column nowrap;
+            width: 70%;
+
+            & > * {
+                margin:5px;
+            }
+
+            button[type="submit"] {
+                height: 35px;
+                background-color:black;
+                color: #ffc400;
+                font-size: 13pt;
+                font-weight: bold;
+                cursor:pointer;
+                box-sizing:border-box;
+            }
+        }
+    }
 `
 
 export {StyledHome as Home}
