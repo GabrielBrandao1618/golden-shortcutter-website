@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react"
+import { FormEvent, ReactNode, useState } from "react"
 import styled from 'styled-components'
 
 import {api} from '../services/api'
@@ -23,6 +23,7 @@ type createLinkServerResponse = {
 function Home({className}:props){
     const [customName, setCustomName] = useState('')
     const [url, setUrl] = useState('')
+    const [operationSucess, setOperationSucess] = useState(true)
 
     const [serverResponse, setServerResponse] = useState('')
 
@@ -31,9 +32,15 @@ function Home({className}:props){
         api.post<createLinkServerResponse>('/createLink', {
             ref:url,
             name:customName
-        }).then(response => setServerResponse(response.data.Msg))
-        setUrl('')
-        setCustomName('')
+        }).then(response => {
+            setServerResponse(response.data.Msg)
+            if(!response.data.Sucess){
+                return setOperationSucess(false)
+            }
+            setOperationSucess(true)
+            setUrl('')
+            setCustomName('')
+        })
     }
     return (
         <div className={className}>
@@ -58,14 +65,23 @@ function Home({className}:props){
                         required
                         label="URL"
                     />
-                    <button type="submit">Criar link</button>
+                    <button type="submit">Create link</button>
                 </div>
             </form>
-            <p>{serverResponse}</p>
+            <ServerResponseText sucess={operationSucess}>{serverResponse}</ServerResponseText>
         </div>
     )
 }
 
+type responseTextProps = {
+    sucess:boolean;
+    children?: ReactNode;
+}
+const ServerResponseText = styled.p<responseTextProps>`
+    color: ${props => props.sucess? 'green' : 'red'};
+    font-weight:bold;
+    font-size:12pt;
+`
 const StyledHome = styled(Home)`
     width: 100vw;
     height: 100vh;
