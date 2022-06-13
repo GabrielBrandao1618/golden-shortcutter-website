@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import {api} from '../services/api'
 
 import {Input} from '../components/Input'
+import { CopyLink } from "../components/CopyLink"
 
 type props = {
     className?: string;
@@ -25,7 +26,7 @@ function Home({className}:props){
     const [url, setUrl] = useState('')
     const [operationSucess, setOperationSucess] = useState(true)
 
-    const [serverResponse, setServerResponse] = useState('')
+    const [serverResponse, setServerResponse] = useState<createLinkServerResponse>({} as createLinkServerResponse)
 
     function handleFormSubmit(e:FormEvent){
         e.preventDefault()
@@ -33,7 +34,7 @@ function Home({className}:props){
             ref:url,
             name:customName
         }).then(response => {
-            setServerResponse(response.data.Msg)
+            setServerResponse(response.data)
             if(!response.data.Sucess){
                 return setOperationSucess(false)
             }
@@ -68,7 +69,10 @@ function Home({className}:props){
                     <button type="submit">Create link</button>
                 </div>
             </form>
-            <ServerResponseText sucess={operationSucess}>{serverResponse}</ServerResponseText>
+            <ServerResponseText sucess={operationSucess}>{serverResponse.Msg}</ServerResponseText>
+            {serverResponse.Sucess &&(
+                <CopyLink customName={serverResponse.ShortedLink.name} />
+            )}
         </div>
     )
 }
