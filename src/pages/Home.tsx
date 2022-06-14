@@ -124,6 +124,7 @@ const StyledHome = styled(Home)`
                 height: 35px;
                 background-color:black;
                 color: #ffc400;
+                border:none;
                 font-size: 13pt;
                 font-weight: bold;
                 cursor:pointer;
