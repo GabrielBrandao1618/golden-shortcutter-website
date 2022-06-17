@@ -1,9 +1,9 @@
 import { FormEvent, ReactNode, useState } from "react"
 import styled from 'styled-components'
 
-import {api} from '../services/api'
+import { api } from '../services/api'
 
-import {Input} from '../components/Input'
+import { Input } from '../components/Input'
 import { CopyLink } from "../components/CopyLink"
 
 type props = {
@@ -11,31 +11,31 @@ type props = {
 }
 
 type shortedLink = {
-    name:string;
-    ref:string;
+    name: string;
+    ref: string;
 }
 
 type createLinkServerResponse = {
-    Sucess:boolean;
-    Msg: string;
-    ShortedLink: shortedLink;
+    sucess: boolean;
+    msg: string;
+    shortedLink: shortedLink;
 }
 
-function Home({className}:props){
+function Home({ className }: props) {
     const [customName, setCustomName] = useState('')
     const [url, setUrl] = useState('')
     const [operationSucess, setOperationSucess] = useState(true)
 
     const [serverResponse, setServerResponse] = useState<createLinkServerResponse>({} as createLinkServerResponse)
 
-    function handleFormSubmit(e:FormEvent){
+    function handleFormSubmit(e: FormEvent) {
         e.preventDefault()
         api.post<createLinkServerResponse>('/createLink', {
-            ref:url,
-            name:customName
+            ref: url,
+            name: customName
         }).then(response => {
             setServerResponse(response.data)
-            if(!response.data.Sucess){
+            if (!response.data.sucess) {
                 return setOperationSucess(false)
             }
             setOperationSucess(true)
@@ -48,19 +48,19 @@ function Home({className}:props){
             <form onSubmit={handleFormSubmit}>
                 <h1>Golden shortcutter</h1>
                 <div className="inputs">
-                    <Input 
-                        type="text" 
-                        name="custom-name" 
-                        id="custom-name" 
+                    <Input
+                        type="text"
+                        name="custom-name"
+                        id="custom-name"
                         onChange={e => setCustomName(e.target.value)}
                         value={customName}
                         required
                         label="Custom name"
                     />
-                    <Input 
-                        type="text" 
+                    <Input
+                        type="text"
                         name="url"
-                        id="url" 
+                        id="url"
                         onChange={e => setUrl(e.target.value)}
                         value={url}
                         required
@@ -69,20 +69,20 @@ function Home({className}:props){
                     <button type="submit">Create link</button>
                 </div>
             </form>
-            <ServerResponseText sucess={operationSucess}>{serverResponse.Msg}</ServerResponseText>
-            {serverResponse.Sucess &&(
-                <CopyLink customName={serverResponse.ShortedLink.name} />
+            <ServerResponseText sucess={operationSucess}>{serverResponse.msg}</ServerResponseText>
+            {serverResponse.sucess && (
+                <CopyLink customName={serverResponse.shortedLink.name} />
             )}
         </div>
     )
 }
 
 type responseTextProps = {
-    sucess:boolean;
+    sucess: boolean;
     children?: ReactNode;
 }
 const ServerResponseText = styled.p<responseTextProps>`
-    color: ${props => props.sucess? 'green' : 'red'};
+    color: ${props => props.sucess ? 'green' : 'red'};
     font-weight:bold;
     font-size:12pt;
 `
@@ -135,4 +135,4 @@ const StyledHome = styled(Home)`
     }
 `
 
-export {StyledHome as Home}
+export { StyledHome as Home }
