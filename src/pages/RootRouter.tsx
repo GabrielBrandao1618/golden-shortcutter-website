@@ -8,7 +8,7 @@ function RootRouter() {
       <BrowserRouter>
         <Routes>
             <Route path="/" element={<Home/>} />
-            <Route path="/:name" element={<Redirect/>} />
+            <Route path="/getUrl/:name" element={<Redirect/>} />
         </Routes>
       </BrowserRouter>
     )

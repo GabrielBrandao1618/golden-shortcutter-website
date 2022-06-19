@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components'
 
 import { copyToClipboard } from '../../lib/copyToClipboard'
@@ -15,9 +15,9 @@ function CopyLink({ className, customName }: props) {
     }, [customName])
     return (
         <div className={className}>
-            <p className="url-text">{window.location.href}{customName}</p>
+            <p className="url-text">{window.location.href}getUrl/{customName}</p>
             <button onClick={e => {
-                copyToClipboard(`${window.location.href}${customName}`)
+                copyToClipboard(`${window.location.href}getUrl/${customName}`)
                 setCopied(true)
             }}>
                 {!copied ? (
