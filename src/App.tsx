@@ -1,4 +1,4 @@
-import {Router} from './pages/RootRouter'
+import {Router} from './routes/Main'
 
 function App() {
   return (
