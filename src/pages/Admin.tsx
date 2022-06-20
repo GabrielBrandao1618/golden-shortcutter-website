@@ -26,14 +26,42 @@ function Admin({className}:props){
     }, [])
     return (
         <div className={className}>
-            <h2>Admin</h2>
-            <p>Número de visitas: {response.visitsCount}</p>
+            <div className="menu">
+                <h1>Visits count on current link:</h1>
+                <p>{response.visitsCount}</p>
+            </div>
         </div>
     )
 }
 
 const StyledAdmin = styled(Admin)`
+    width:100vw;
+    height: 100vh;
+    display:flex;
+    flex-flow: column nowrap;
+    align-items:center;
+    justify-content: center;
 
+    .menu{
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, .3);
+        padding: 5px;
+        border-radius: 8px;
+        width: 100%;
+        max-width: 300px;
+
+        p {
+            color: #ffc400;
+            font-weight: bold;
+            font-size: 15pt;
+            width:100%;
+            text-align:center;
+        }
+        
+        h1 {
+            width:100%;
+            text-align:center;
+        }
+    }
 `
 
 export {StyledAdmin as Admin}
