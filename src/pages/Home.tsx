@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 import styled from 'styled-components'
 
 import * as yup from 'yup'
@@ -43,7 +43,7 @@ function Home({ className }: props) {
     const onSubmit: SubmitHandler<formValues> = async (data) => {
         const response = await api.post<createLinkServerResponse>('/createLink', {
             ref: data.ref,
-            name: data.customName
+            name: data.name
         })
         setServerResponse(response.data)
         if (!response.data.sucess) {
@@ -51,6 +51,7 @@ function Home({ className }: props) {
         }
         setOperationSucess(true)
     }
+
 
     return (
         <div className={className}>
