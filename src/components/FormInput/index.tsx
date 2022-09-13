@@ -1,11 +1,12 @@
-import {Controller} from 'react-hook-form'
+import {Control, Controller} from 'react-hook-form'
 
 import { CustomInputProps, Input } from "../Input";
 
+import {FieldError} from 'react-hook-form'
 interface Props extends CustomInputProps {
     name: string;
-    control: any
-    error: any;
+    control: Control;
+    error?: FieldError;
 }
 
 export function FormInput(props: Props){

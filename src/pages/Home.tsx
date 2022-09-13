@@ -1,15 +1,14 @@
-import { FormEvent, ReactNode, useState } from "react"
+import { ReactNode, useState } from "react"
 import styled from 'styled-components'
 
 import * as yup from 'yup'
 import {yupResolver} from '@hookform/resolvers/yup'
-import {SubmitHandler, useForm, UseFormHandleSubmit} from 'react-hook-form'
+import {Control, SubmitHandler, useForm, UseFormHandleSubmit} from 'react-hook-form'
 
 import { api } from '../services/api'
 
 import { CopyLink } from "../components/CopyLink"
 import { FormInput } from "../components/FormInput"
-import { Input } from "../components/Input"
 
 type props = {
     className?: string;
@@ -35,7 +34,6 @@ type formValues = yup.TypeOf<typeof formSchema>
 
 function Home({ className }: props) {
     const [operationSucess, setOperationSucess] = useState(true)
-
     const [serverResponse, setServerResponse] = useState<createLinkServerResponse>({} as createLinkServerResponse)
 
     const {control, handleSubmit, formState:{errors}} = useForm<formValues>({
@@ -43,7 +41,6 @@ function Home({ className }: props) {
     })
 
     const onSubmit: SubmitHandler<formValues> = async (data) => {
-        console.log(data)
         const response = await api.post<createLinkServerResponse>('/createLink', {
             ref: data.ref,
             name: data.customName
