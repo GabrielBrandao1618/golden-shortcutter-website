@@ -43,9 +43,8 @@ function Home({ className }: props) {
     const onSubmit: SubmitHandler<formValues> = async (data) => {
         const response = await api.post<createLinkServerResponse>('/createLink', {
             ref: data.ref,
-            name: data.customName
+            name: data.name
         })
-        console.log(response.data)
         setServerResponse(response.data)
         if (!response.data.sucess) {
             return setOperationSucess(false)
