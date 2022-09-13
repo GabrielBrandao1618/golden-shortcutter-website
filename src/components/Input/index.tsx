@@ -2,12 +2,12 @@ import styled from 'styled-components'
 
 import {InputHTMLAttributes} from 'react'
 
-type props = InputHTMLAttributes<HTMLInputElement> & {
+export type CustomInputProps = InputHTMLAttributes<HTMLInputElement> & {
     label:string;
     className?: string;
 }
 
-function Input({label, className, name, ...inputProps}:props){
+function Input({label, className, name, ...inputProps}:CustomInputProps){
     return (
         <div className={className}>
             <input type="text" {...inputProps} />
