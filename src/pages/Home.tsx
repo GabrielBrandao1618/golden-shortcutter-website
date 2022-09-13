@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 import styled from 'styled-components'
 
 import * as yup from 'yup'
@@ -45,12 +45,14 @@ function Home({ className }: props) {
             ref: data.ref,
             name: data.customName
         })
+        console.log(response.data)
         setServerResponse(response.data)
         if (!response.data.sucess) {
             return setOperationSucess(false)
         }
         setOperationSucess(true)
     }
+
 
     return (
         <div className={className}>
