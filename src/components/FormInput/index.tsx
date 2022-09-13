@@ -12,7 +12,7 @@ interface Props extends CustomInputProps {
 }
 
 const Error = styled.span`
-    color: red;
+    color: rgb(255, 28, 28);
     font-size: 12pt;
     font-weight: bold;
 `
@@ -25,12 +25,12 @@ export function FormInput(props: Props){
             render = {({field: {onChange, value}})=> {
                 return (
                     <>
+                        <Error>{props.error?.message}</Error>
                         <Input
                             value={value ?? ''} 
                             onChange={onChange}
                             {...props}
                         />
-                        <Error>{props.error?.message}</Error>
                     </>
                 )
             }}
