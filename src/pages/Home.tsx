@@ -1,14 +1,10 @@
-import { ReactNode, useState } from "react"
+import { FormEvent, ReactNode, useState } from "react"
 import styled from 'styled-components'
-
-import * as yup from 'yup'
-import {yupResolver} from '@hookform/resolvers/yup'
-import {Control, SubmitHandler, useForm, UseFormHandleSubmit} from 'react-hook-form'
 
 import { api } from '../services/api'
 
+import { Input } from '../components/Input'
 import { CopyLink } from "../components/CopyLink"
-import { FormInput } from "../components/FormInput"
 
 type props = {
     className?: string;
@@ -25,55 +21,51 @@ type createLinkServerResponse = {
     shortedLink: shortedLink;
 }
 
-const formSchema = yup.object().shape({
-    name: yup.string().required('Custom name is required'),
-    ref: yup.string().required('Url is required').url('Must be a URL')
-})
-
-type formValues = yup.TypeOf<typeof formSchema>
-
 function Home({ className }: props) {
+    const [customName, setCustomName] = useState('')
+    const [url, setUrl] = useState('')
     const [operationSucess, setOperationSucess] = useState(true)
+
     const [serverResponse, setServerResponse] = useState<createLinkServerResponse>({} as createLinkServerResponse)
 
-    const {control, handleSubmit, formState:{errors}} = useForm<formValues>({
-        resolver: yupResolver(formSchema)
-    })
-
-    const onSubmit: SubmitHandler<formValues> = async (data) => {
-        const response = await api.post<createLinkServerResponse>('/createLink', {
-            ref: data.ref,
-            name: data.customName
+    function handleFormSubmit(e: FormEvent) {
+        e.preventDefault()
+        api.post<createLinkServerResponse>('/createLink', {
+            ref: url,
+            name: customName
+        }).then(response => {
+            setServerResponse(response.data)
+            if (!response.data.sucess) {
+                return setOperationSucess(false)
+            }
+            setOperationSucess(true)
+            setUrl('')
+            setCustomName('')
         })
-        setServerResponse(response.data)
-        if (!response.data.sucess) {
-            return setOperationSucess(false)
-        }
-        setOperationSucess(true)
     }
-
     return (
         <div className={className}>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleFormSubmit}>
                 <h1>Golden shortcutter</h1>
                 <div className="inputs">
-                    <FormInput
-                        control={control}
+                    <Input
                         type="text"
-                        name="name"
+                        name="custom-name"
                         id="custom-name"
+                        onChange={e => setCustomName(e.target.value)}
+                        value={customName}
+                        required
                         label="Custom name"
-                        error={errors.name}
                     />
-                    <FormInput
-                        control={control}
+                    <Input
                         type="text"
-                        name="ref"
+                        name="url"
                         id="url"
+                        onChange={e => setUrl(e.target.value)}
+                        value={url}
+                        required
                         label="URL"
-                        error={errors.ref}
                     />
-
                     <button type="submit">Create link</button>
                 </div>
             </form>
